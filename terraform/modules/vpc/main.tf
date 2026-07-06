@@ -19,9 +19,21 @@ resource "aws_subnet" "public_subnet" {
 resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.main_vpc.id
   cidr_block = var.private_subnet_cidr
+  availability_zone = var.az_a
 
   tags = {
     Name = "${var.environment}_private_subnet",
+    "kubernetes.io/role/internal-elb" = "1"
+  }
+}
+
+resource "aws_subnet" "private_subnet_secondary" {
+  vpc_id = aws_vpc.main_vpc.id
+  cidr_block = var.private_subnet_cidr_secondary
+  availability_zone = var.az_b
+
+  tags = {
+    Name = "${var.environment}_private_subnet_secondary",
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
@@ -76,4 +88,19 @@ resource "aws_route_table" "private_route_table" {
   tags = {
     Name = "private_route_table"
   }
+}
+
+resource "aws_route_table_association" "public_assoc" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.public_route_table.id
+}
+
+resource "aws_route_table_association" "private_assoc_a" {
+  subnet_id      = aws_subnet.private_subnet.id
+  route_table_id = aws_route_table.private_route_table.id
+}
+
+resource "aws_route_table_association" "private_assoc_b" {
+  subnet_id      = aws_subnet.private_subnet_secondary.id
+  route_table_id = aws_route_table.private_route_table.id
 }
