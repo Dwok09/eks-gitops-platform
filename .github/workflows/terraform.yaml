@@ -51,7 +51,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: terraform -chdir=terraform/envs/dev init
-      - run: terraform -chdir=terraform/envs/dev apply -auto-approve
+      - run: terraform -chdir=terraform/envs/dev destroy -auto-approve
 
   deploy-prod:
     name: Deploy prod
@@ -69,4 +69,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - run: terraform -chdir=terraform/envs/prod init
-      - run: terraform -chdir=terraform/envs/prod apply -auto-approve
+      - run: terraform -chdir=terraform/envs/prod destroy -auto-approve

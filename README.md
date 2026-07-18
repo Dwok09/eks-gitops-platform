@@ -189,3 +189,5 @@ You should see:
   serve the workload through an ALB instead of port-forwarding.
 - **Deeper CI checks** — add `tflint`, `tfsec`, and cost estimation, and promote the
   Checkov scan from advisory to a hard gate once findings are triaged. Currently there are some Checkov alerts in the pipeline that I would require to be fixed in production, but they are fine in the test environment.
+
+Thanks for checking out my project
